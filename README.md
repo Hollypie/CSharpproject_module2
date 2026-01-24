@@ -16,6 +16,13 @@ The purpose of this project is to strengthen my understanding of C# as an object
 
 [Software Demo Video](http://youtube.link.goes.here)
 
+## Running the project
+
+because we are working with C#, in order to run the code. You'll need to type the following
+
+dotnet build
+dotnet run
+
 ## Development Environment
 
 This project was developed using the following tools and technologies:
