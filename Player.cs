@@ -55,4 +55,14 @@ public class Player
         Stats = data.Stats;
     }
 
+    public void TakeDamage(int amount)
+    {
+        Stats.Health -= amount;
+        Console.WriteLine($"{Name} took {amount} damage!");
+
+        if (Stats.Health <= 0)
+        {
+            Console.WriteLine($"{Name} has fallen!");
+        }
+    }
 }

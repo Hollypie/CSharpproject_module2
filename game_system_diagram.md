@@ -180,3 +180,16 @@ Saved data may include:
 - Player level and XP
 - Stats
 - Inventory
+
+
+To Do list:
+
+Add Inventory saving
+
+Add a Save / Load menu option
+
+Handle multiple save slots
+
+Add Enemy save support
+
+Make SaveManager static vs instance (design discussion)

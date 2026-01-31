@@ -4,7 +4,7 @@ public class Game
 
     public Game()
     {
-        player = null; 
+        player = null;
     }
 
     public void ShowMainMenu()
@@ -55,6 +55,8 @@ public class Game
 
         Console.WriteLine($"Name: {player.Name}");
         Console.WriteLine($"Level: {player.Level}");
-        Console.WriteLine($"Health: {player.Health}");
+        Console.WriteLine($"Health: {player.Stats.Health}");
+        Console.WriteLine($"Strength: {player.Stats.Strength}");
+        Console.WriteLine($"Defense: {player.Stats.Defense}");
     }
 }

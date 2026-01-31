@@ -1,26 +1,38 @@
 // Enemy.cs
 public abstract class Enemy
 {
+    public string Name { get; protected set; }
     public Stats Stats;
 
-    public Enemy()
+    protected Enemy(string name, Stats stats)
     {
-
+        Name = name;
+        Stats = stats;
     }
 
-    public void DecideAction()
-    {
+    public abstract void DecideAction();
 
+    public virtual void Attack(Player player)
+    {
+        Console.WriteLine($"{Name} attacks!");
+
+        int damage = Stats.Strength;
+        player.TakeDamage(damage);
     }
 
-    public void Attack()
+    public virtual void TakeDamage(int amount)
     {
+        Stats.Health -= amount;
+        Console.WriteLine($"{Name} took {amount} damage!");
 
+        if (Stats.Health <= 0)
+        {
+            Die();
+        }
     }
-    
-    public void TakeDamage()
+
+    protected virtual void Die()
     {
-        
+        Console.WriteLine($"{Name} has been defeated!");
     }
-
 }
