@@ -14,9 +14,10 @@ public class Skeleton : Enemy
         Console.WriteLine("Skeleton rattles forward and attacks!");
     }
 
-    // public override void DecideAction()
-    // {
-    //     Console.WriteLine("Skeleton rattles forward and attacks!");
-    //     Attack(currentPlayer);
-    // }
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+        // Optionally add special behavior here
+    }
+
 }

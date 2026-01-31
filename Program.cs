@@ -4,22 +4,23 @@
 // Run the main game loop
 // Call other classes (Player, Game, Scoreboard, etc.)
 // Handle quitting the program
+// Program.cs
 
 Console.WriteLine("Welcome to my Game Systems Prototype!");
-GameLoop();
 
-void GameLoop()
+// Create the game instance once
+Game myGame = new Game();
+
+bool running = true;
+
+while (running)
 {
-    bool running = true;
+    myGame.ShowMainMenu();
+    string choice = myGame.GetMenuChoice();
 
-    while (running)
-    {
-        Game myGame = new Game();
-
-        myGame.ShowMainMenu();
-        string choice = myGame.GetMenuChoice();
-
-        running = myGame.HandleMenuChoice(choice);
-    }
+    running = myGame.HandleMenuChoice(choice);
 }
+
+Console.WriteLine("Thanks for playing!");
+
 

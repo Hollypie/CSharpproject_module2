@@ -2,9 +2,9 @@
 public abstract class Enemy
 {
     public string Name { get; protected set; }
-    public Stats Stats;
+    public Stats Stats { get; set; }
 
-    protected Enemy(string name, Stats stats)
+    public Enemy(string name, Stats stats)
     {
         Name = name;
         Stats = stats;
@@ -23,7 +23,7 @@ public abstract class Enemy
     public virtual void TakeDamage(int amount)
     {
         Stats.Health -= amount;
-        Console.WriteLine($"{Name} took {amount} damage!");
+        Console.WriteLine($"{Name} takes {amount} damage! Remaining health: {Stats.Health}");
 
         if (Stats.Health <= 0)
         {

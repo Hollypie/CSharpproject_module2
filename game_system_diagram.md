@@ -193,3 +193,11 @@ Handle multiple save slots
 Add Enemy save support
 
 Make SaveManager static vs instance (design discussion)
+
+Hook an Enemy into Game
+
+Add a simple combat test
+
+Add save/load option to menu
+
+Add inventory stub
