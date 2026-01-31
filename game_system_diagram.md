@@ -62,7 +62,8 @@ This diagram shows how the major systems in the console-based Game Systems Proto
 │ GainXP()      │    │
 │ LevelUp()     │    │
 │ Attack()      │    │
-│ TakeDamage()  │    │
+│ TakeDamage()  |    |
+| LoadFromSave(SaveData data) 
 └───────────────┘    │
                      │
              ┌─────────────┐
