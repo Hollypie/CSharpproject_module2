@@ -1,10 +1,9 @@
-// Enemy.cs
 public abstract class Enemy
 {
     public string Name { get; protected set; }
-    public Stats Stats { get; set; }
+    public Stats Stats { get; protected set; }
 
-    public Enemy(string name, Stats stats)
+    protected Enemy(string name, Stats stats)
     {
         Name = name;
         Stats = stats;
@@ -12,27 +11,26 @@ public abstract class Enemy
 
     public abstract void DecideAction();
 
-    public virtual void Attack(Player player)
+    public void PrintEnemyStats()
     {
-        Console.WriteLine($"{Name} attacks!");
-
-        int damage = Stats.Strength;
-        player.TakeDamage(damage);
+        Console.WriteLine($"Enemy: {Name}");
+        Console.WriteLine($"Health: {Stats.Health}");
+        Console.WriteLine($"Strength: {Stats.Strength}");
+        Console.WriteLine($"Defense: {Stats.Defense}");
     }
 
-    public virtual void TakeDamage(int amount)
+    public void Attack(Player player)
     {
-        Stats.Health -= amount;
-        Console.WriteLine($"{Name} takes {amount} damage! Remaining health: {Stats.Health}");
+        int damage = Stats.Strength - player.Stats.Defense;
+        if (damage < 1) damage = 1;
 
-        if (Stats.Health <= 0)
-        {
-            Die();
-        }
+        Console.WriteLine($"{Name} attacks {player.Name} for {damage} damage!");
+        player.Stats.TakeDamage(damage);
     }
 
-    protected virtual void Die()
+    public bool IsAlive()
     {
-        Console.WriteLine($"{Name} has been defeated!");
+        return Stats.Health > 0;
     }
+
 }

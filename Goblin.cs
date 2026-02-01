@@ -1,16 +1,15 @@
-// Goblin.cs
 public class Goblin : Enemy
 {
     public Goblin()
         : base(
             "Goblin",
-            new Stats { Health = 30, Strength = 5, Defense = 2 }
+            new Stats(15, 4, 0)
           )
     {
     }
 
     public override void DecideAction()
     {
-        Console.WriteLine("Goblin snarls and attacks!");
+        Console.WriteLine("Goblin screeches and lunges!");
     }
 }

@@ -1,22 +1,20 @@
-// Stats.cs
 public class Stats
 {
     public int Health { get; set; }
     public int Strength { get; set; }
     public int Defense { get; set; }
 
-    public Stats(int health = 100, int strength = 10, int defense = 5)
+    public Stats(int health, int strength, int defense)
     {
         Health = health;
         Strength = strength;
         Defense = defense;
     }
 
-    // Copies values from another Stats object
-    public void CopyFrom(Stats other)
+    public void TakeDamage(int amount)
     {
-        Health = other.Health;
-        Strength = other.Strength;
-        Defense = other.Defense;
+        Health -= amount;
+        if (Health < 0) Health = 0;
     }
+
 }

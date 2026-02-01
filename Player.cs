@@ -1,18 +1,13 @@
-// Player.cs
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
-
 public class Player
 {
     public string Name { get; private set; }
     public int Level { get; private set; }
-    public int CurrentXP { get; private set; }
-    public int XPToNextLevel { get; private set; }
+    public int CurrentXP { get; set; }
+    public int XPToNextLevel { get; set; }
+
 
     public Stats Stats { get; private set; }
-
-    public List<string> Inventory { get; private set; }
+    public List<string> Inventory { get; set; }
 
     public Player(string name)
     {
@@ -21,7 +16,33 @@ public class Player
         CurrentXP = 0;
         XPToNextLevel = 100;
         Inventory = new List<string>();
-        Stats = new Stats(); // default stats: Health=100, Strength=10, Defense=5
+        Stats = new Stats(100, 10, 5);
+    }
+
+    public void PrintStats()
+    {
+        Console.WriteLine($"Name: {Name}");
+        Console.WriteLine($"Level: {Level}");
+        Console.WriteLine($"Health: {Stats.Health}");
+        Console.WriteLine($"Strength: {Stats.Strength}");
+        Console.WriteLine($"Defense: {Stats.Defense}");
+        Console.WriteLine("Inventory:");
+        if (Inventory.Count == 0) Console.WriteLine(" - (empty)");
+        else foreach (var item in Inventory) Console.WriteLine($" - {item}");
+    }
+
+    public void Attack(Enemy enemy)
+    {
+        int damage = Stats.Strength - enemy.Stats.Defense;
+        if (damage < 1) damage = 1;
+
+        Console.WriteLine($"{Name} attacks {enemy.Name} for {damage} damage!");
+        enemy.Stats.TakeDamage(damage);
+    }
+
+    public bool IsAlive()
+    {
+        return Stats.Health > 0;
     }
 
     public void GainXP(int amount)
@@ -48,52 +69,4 @@ public class Player
         Console.WriteLine($"{Name} leveled up to level {Level}!");
     }
 
-    public void TakeDamage(int amount)
-    {
-        Stats.Health -= amount;
-        Console.WriteLine($"{Name} took {amount} damage! Remaining Health: {Stats.Health}");
-
-        if (Stats.Health <= 0)
-        {
-            Console.WriteLine($"{Name} has fallen!");
-        }
-    }
-
-    public void PrintStats()
-    {
-        Console.WriteLine($"Health: {Stats.Health}");
-        Console.WriteLine($"Strength: {Stats.Strength}");
-        Console.WriteLine($"Defense: {Stats.Defense}");
-    }
-
-    public void ShowStats()
-    {
-        Console.WriteLine($"Name: {Name}");
-        Console.WriteLine($"Level: {Level}");
-        Console.WriteLine($"Health: {Stats.Health}");
-        Console.WriteLine("Inventory:");
-        if (Inventory.Count == 0)
-        {
-            Console.WriteLine(" - (empty)");
-        }
-        else
-        {
-            foreach (var item in Inventory)
-            {
-                Console.WriteLine($" - {item}");
-            }
-        }
-    }
-
-    // Load player from a SaveData object
-    public void LoadFromSave(SaveData data)
-    {
-        Level = data.Level;
-        CurrentXP = data.CurrentXP;
-        XPToNextLevel = data.XPToNextLevel;
-
-        Stats.CopyFrom(data.Stats);
-
-        Inventory = new List<string>(data.Inventory);
-    }
 }

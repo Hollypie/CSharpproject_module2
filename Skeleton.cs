@@ -1,23 +1,15 @@
-// Skeleton.cs
 public class Skeleton : Enemy
 {
     public Skeleton()
         : base(
             "Skeleton",
-            new Stats { Health = 20, Strength = 3, Defense = 1 }
+            new Stats(20, 3, 1)
           )
     {
     }
 
     public override void DecideAction()
     {
-        Console.WriteLine("Skeleton rattles forward and attacks!");
+        Console.WriteLine("Skeleton rattles and swings its sword!");
     }
-
-    public override void TakeDamage(int amount)
-    {
-        base.TakeDamage(amount);
-        // Optionally add special behavior here
-    }
-
 }

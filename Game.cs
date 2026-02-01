@@ -1,23 +1,16 @@
-using System;
+using System.Text.Json;
 
 public class Game
 {
     private Player? player;
-    private SaveManager saveManager;
-
-    public Game()
-    {
-        player = null;
-        saveManager = new SaveManager();
-    }
+    private Random random = new Random();
 
     public void ShowMainMenu()
     {
-        Console.WriteLine();
-        Console.WriteLine("Main Menu");
+        Console.WriteLine("\nMain Menu");
         Console.WriteLine("1. New Game");
         Console.WriteLine("2. Load Game");
-        Console.WriteLine("3. Save Game");
+        Console.WriteLine("3. Random Encounter");
         Console.WriteLine("4. Exit");
     }
 
@@ -27,106 +20,98 @@ public class Game
         return Console.ReadLine() ?? "";
     }
 
-public bool HandleMenuChoice(string choice)
+    public bool HandleMenuChoice(string choice)
     {
         switch (choice)
         {
             case "1":
-
                 StartNewGame();
-
-                // Create an enemy for the first encounter
-                Enemy skeleton = new Skeleton();
-                StartBattle(skeleton);
-
-                return true;
-
+                break;
             case "2":
-                LoadSavedGame();
-                return true;
-
+                LoadGame();
+                break;
             case "3":
-                SaveCurrentGame();
-                return true;
-
+                RandomEncounter();
+                break;
             case "4":
-                Console.WriteLine("You have chosen to exit the program.");
+                Console.WriteLine("Exiting program...");
                 return false;
-
             default:
-                Console.WriteLine("That is an incorrect input. Try again.");
-                return true;
+                Console.WriteLine("Invalid input. Try again.");
+                break;
         }
+        return true;
     }
 
-    private void StartNewGame()
+    public void StartNewGame()
     {
-        Console.WriteLine();
-        Console.WriteLine("Starting new game...");
-
         player = new Player("Hero");
-
-        Console.WriteLine($"Name: {player.Name}");
-        Console.WriteLine($"Level: {player.Level}");
+        Console.WriteLine("\nNew game started!");
         player.PrintStats();
     }
 
-    private void SaveCurrentGame()
+    public void SaveGame()
     {
         if (player == null)
         {
-            Console.WriteLine("No game in progress to save.");
+            Console.WriteLine("No game to save.");
             return;
         }
 
-        saveManager.SaveGame(player);
+        string json = JsonSerializer.Serialize(player);
+        File.WriteAllText("savegame.json", json);
+        Console.WriteLine("Game saved!");
     }
 
-    private void LoadSavedGame()
+    public void LoadGame()
     {
-        Player? loaded = saveManager.LoadGame();
-        if (loaded != null)
+        if (!File.Exists("savegame.json"))
         {
-            player = loaded;
-            Console.WriteLine();
-            Console.WriteLine("Player stats after loading:");
-            player.PrintStats();
+            Console.WriteLine("No save file found.");
+            return;
         }
+
+        string json = File.ReadAllText("savegame.json");
+        player = JsonSerializer.Deserialize<Player>(json);
+        Console.WriteLine("Game loaded!");
+        player?.PrintStats();
     }
 
-    public void StartBattle(Enemy enemy)
+    public void RandomEncounter()
     {
-        if (player == null) return;
-
-        Console.WriteLine();
-        Console.WriteLine($"A wild {enemy.Name} appears!");
-
-        while (player.Stats.Health > 0 && enemy.Stats.Health > 0)
+        if (player == null)
         {
-            // Player attacks first
-            Console.WriteLine("You attack!");
-            enemy.TakeDamage(player.Stats.Strength);
+            Console.WriteLine("Start a game first!");
+            return;
+        }
 
-            if (enemy.Stats.Health <= 0)
-            {
-                Console.WriteLine($"{enemy.Name} is defeated!");
-                break;
-            }
+        Enemy enemy = random.Next(2) == 0 ? new Skeleton() : new Goblin();
 
-            // Enemy attacks back
-            Console.WriteLine($"{enemy.Name} attacks!");
-            player.TakeDamage(enemy.Stats.Strength);
+        Console.WriteLine($"\nA wild {enemy.Name} appears!");
+        Console.WriteLine($"Enemy HP: {enemy.Stats.Health}");
 
-            if (player.Stats.Health <= 0)
-            {
-                Console.WriteLine("You have been defeated!");
-                break;
-            }
+        // Player attacks
+        player.Attack(enemy);
 
-            Console.WriteLine();
-            Console.WriteLine("Press Enter to continue to next round...");
-            Console.ReadLine();
+        if (!enemy.IsAlive())
+        {
+            Console.WriteLine($"{enemy.Name} is defeated!");
+            player.GainXP(25);
+            return;
+        }
+
+        // Enemy attacks back
+        enemy.Attack(player);
+
+        if (!player.IsAlive())
+        {
+            Console.WriteLine("You were defeated... Game Over");
+        }
+        else
+        {
+            Console.WriteLine($"You survived! HP remaining: {player.Stats.Health}");
         }
     }
 
 }
+
