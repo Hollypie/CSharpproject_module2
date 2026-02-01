@@ -6,9 +6,13 @@
 // Handle quitting the program
 // Program.cs
 
+using System;
+
 Console.WriteLine("Welcome to my Game Systems Prototype!");
-bool running = true;
+
 Game myGame = new Game();
+
+bool running = true;
 
 while (running)
 {
@@ -16,5 +20,10 @@ while (running)
     string choice = myGame.GetMenuChoice();
     running = myGame.HandleMenuChoice(choice);
 }
+
+Console.WriteLine("Saving game to: " + Path.GetFullPath("savegame.json"));
+
+Console.WriteLine("Thanks for playing!");
+
 
 

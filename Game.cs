@@ -1,9 +1,12 @@
+using System;
+using System.IO;
 using System.Text.Json;
 
 public class Game
 {
     private Player? player;
     private Random random = new Random();
+    private string savePath = "savegame.json"; // always in project folder
 
     public void ShowMainMenu()
     {
@@ -11,7 +14,9 @@ public class Game
         Console.WriteLine("1. New Game");
         Console.WriteLine("2. Load Game");
         Console.WriteLine("3. Random Encounter");
-        Console.WriteLine("4. Exit");
+        Console.WriteLine("4. Save Game");
+        Console.WriteLine("5. Exit");
+        Console.WriteLine();
     }
 
     public string GetMenuChoice()
@@ -26,21 +31,23 @@ public class Game
         {
             case "1":
                 StartNewGame();
-                break;
+                return true;
             case "2":
                 LoadGame();
-                break;
+                return true;
             case "3":
                 RandomEncounter();
-                break;
+                return true;
             case "4":
+                SaveGame();
+                return true;
+            case "5":
                 Console.WriteLine("Exiting program...");
                 return false;
             default:
                 Console.WriteLine("Invalid input. Try again.");
-                break;
+                return true;
         }
-        return true;
     }
 
     public void StartNewGame()
@@ -58,20 +65,20 @@ public class Game
             return;
         }
 
-        string json = JsonSerializer.Serialize(player);
-        File.WriteAllText("savegame.json", json);
-        Console.WriteLine("Game saved!");
+        string json = JsonSerializer.Serialize(player, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(savePath, json);
+        Console.WriteLine($"Game saved at: {Path.GetFullPath(savePath)}");
     }
 
     public void LoadGame()
     {
-        if (!File.Exists("savegame.json"))
+        if (!File.Exists(savePath))
         {
             Console.WriteLine("No save file found.");
             return;
         }
 
-        string json = File.ReadAllText("savegame.json");
+        string json = File.ReadAllText(savePath);
         player = JsonSerializer.Deserialize<Player>(json);
         Console.WriteLine("Game loaded!");
         player?.PrintStats();
@@ -85,33 +92,30 @@ public class Game
             return;
         }
 
-        Enemy enemy = random.Next(2) == 0 ? new Skeleton() : new Goblin();
+        Enemy encounter = random.Next(2) == 0 ? new Skeleton() : new Goblin();
+        Console.WriteLine($"\nA wild {encounter.Name} appears!");
+        Console.WriteLine($"Enemy HP: {encounter.Stats.Health}, Strength: {encounter.Stats.Strength}, Defense: {encounter.Stats.Defense}");
 
-        Console.WriteLine($"\nA wild {enemy.Name} appears!");
-        Console.WriteLine($"Enemy HP: {enemy.Stats.Health}");
+        // Simple combat
+        int damageToEnemy = Math.Max(player.Stats.Strength - encounter.Stats.Defense, 0);
+        encounter.Stats.TakeDamage(damageToEnemy);
+        Console.WriteLine($"Hero attacks {encounter.Name} for {damageToEnemy} damage!");
 
-        // Player attacks
-        player.Attack(enemy);
+        int damageToHero = Math.Max(encounter.Stats.Strength - player.Stats.Defense, 0);
+        player.Stats.TakeDamage(damageToHero);
+        Console.WriteLine($"{encounter.Name} attacks Hero for {damageToHero} damage!");
 
-        if (!enemy.IsAlive())
+        if (player.Stats.Health <= 0)
         {
-            Console.WriteLine($"{enemy.Name} is defeated!");
-            player.GainXP(25);
-            return;
-        }
-
-        // Enemy attacks back
-        enemy.Attack(player);
-
-        if (!player.IsAlive())
-        {
-            Console.WriteLine("You were defeated... Game Over");
+            Console.WriteLine("Hero has been defeated!");
+            player.Stats.Health = 1; // Prevent death for simplicity
         }
         else
         {
             Console.WriteLine($"You survived! HP remaining: {player.Stats.Health}");
         }
+
+        // Save automatically after encounter
+        SaveGame();
     }
-
 }
-

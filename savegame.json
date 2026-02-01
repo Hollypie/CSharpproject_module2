@@ -1,0 +1,12 @@
+{
+  "Name": "Hero",
+  "Level": 1,
+  "CurrentXP": 0,
+  "XPToNextLevel": 100,
+  "Stats": {
+    "Health": 90,
+    "Strength": 10,
+    "Defense": 1
+  },
+  "Inventory": []
+}
