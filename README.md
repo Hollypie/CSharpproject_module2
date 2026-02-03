@@ -25,8 +25,6 @@ Then the user can choose from the menu. Random Encounter generates a fight with 
 
 You may need to install some things to get my project to run in your VS code terminal. I am using dotnet 8.0.401 version. You many also need to install the C# extension.
 
-because we are working with C#, in order to run the code. You'll need to type the following
-
 How to Run
 1. Install .NET 8 SDK
 2. Navigate to the project directory
