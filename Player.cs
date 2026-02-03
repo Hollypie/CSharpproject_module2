@@ -11,25 +11,28 @@ public class Player
     public Stats Stats { get; set; }
     public List<string> Inventory { get; set; }
 
+    // Parameterless constructor needed for JSON deserialization
     public Player()
     {
-        // Parameterless constructor needed for JSON deserialization
-    }
-
-    public Player(string name)
-    {
-        Name = name;
+        Name = "Hero";                       // default name
         Level = 1;
         CurrentXP = 0;
-        XPToNextLevel = 100;
-        Inventory = new List<string>();
-        Stats = new Stats(health: 100, strength: 10, defense: 1);
+        XPToNextLevel = 100;                 // safe default XP to level
+        Stats = new Stats(25, 10, 1);       // default stats
+        Inventory = new List<string>();      // empty inventory
+    }
+
+    // Constructor with a name
+    public Player(string name) : this()
+    {
+        Name = name;
     }
 
     public void PrintStats()
     {
         Console.WriteLine($"Name: {Name}");
         Console.WriteLine($"Level: {Level}");
+        Console.WriteLine($"XP: {CurrentXP}/{XPToNextLevel}");
         Console.WriteLine($"Health: {Stats.Health}");
         Console.WriteLine($"Strength: {Stats.Strength}");
         Console.WriteLine($"Defense: {Stats.Defense}");
@@ -39,9 +42,7 @@ public class Player
         else
         {
             foreach (var item in Inventory)
-            {
                 Console.WriteLine($" - {item}");
-            }
         }
     }
 
@@ -50,7 +51,8 @@ public class Player
         CurrentXP += amount;
         Console.WriteLine($"Gained {amount} XP!");
 
-        while (CurrentXP >= XPToNextLevel)
+        // Safety check to prevent eternal loop
+        while (XPToNextLevel > 0 && CurrentXP >= XPToNextLevel)
         {
             CurrentXP -= XPToNextLevel;
             LevelUp();
@@ -61,11 +63,13 @@ public class Player
     {
         Level++;
         XPToNextLevel = (int)(XPToNextLevel * 1.5);
-        Stats.Health += 10;
+
+        // Increase max stats without healing current health
         Stats.Strength += 2;
         Stats.Defense += 1;
 
         Console.WriteLine($"Leveled up! Now at level {Level}.");
-        Console.WriteLine($"Stats increased! Health: {Stats.Health}, Strength: {Stats.Strength}, Defense: {Stats.Defense}");
+        Console.WriteLine($"Stats increased! Strength: {Stats.Strength}, Defense: {Stats.Defense}");
     }
+
 }

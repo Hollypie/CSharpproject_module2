@@ -1,10 +1,7 @@
 public class Goblin : Enemy
 {
     public Goblin()
-        : base(
-            "Goblin",
-            new Stats(15, 4, 0)
-          )
+        : base("Goblin", new Stats(15, 4, 0), "Goblin Ear")
     {
     }
 

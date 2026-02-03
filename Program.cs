@@ -2,7 +2,7 @@
 // Show the welcome screen
 // Display the menu
 // Run the main game loop
-// Call other classes (Player, Game, Scoreboard, etc.)
+// Instantiate a Game Object from the Game class
 // Handle quitting the program
 // Program.cs
 

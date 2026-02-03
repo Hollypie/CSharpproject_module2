@@ -1,12 +1,23 @@
 {
   "Name": "Hero",
-  "Level": 1,
-  "CurrentXP": 0,
-  "XPToNextLevel": 100,
+  "Level": 2,
+  "CurrentXP": 100,
+  "XPToNextLevel": 150,
   "Stats": {
-    "Health": 90,
-    "Strength": 10,
-    "Defense": 1
+    "Health": 1,
+    "Strength": 12,
+    "Defense": 2
   },
-  "Inventory": []
+  "Inventory": [
+    "Goblin Ear",
+    "Bone",
+    "Bone",
+    "Goblin Ear",
+    "Bone",
+    "Goblin Ear",
+    "Goblin Ear",
+    "Bone",
+    "Bone",
+    "Bone"
+  ]
 }

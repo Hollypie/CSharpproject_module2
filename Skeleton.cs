@@ -1,10 +1,7 @@
 public class Skeleton : Enemy
 {
     public Skeleton()
-        : base(
-            "Skeleton",
-            new Stats(20, 3, 1)
-          )
+        : base("Skeleton", new Stats(20, 3, 1), "Bone")
     {
     }
 
