@@ -23,10 +23,15 @@ Then the user can choose from the menu. Random Encounter generates a fight with 
 
 ## Running the project
 
+You may need to install some things to get my project to run in your VS code terminal. I am using dotnet 8.0.401 version. You many also need to install the C# extension.
+
 because we are working with C#, in order to run the code. You'll need to type the following
 
-dotnet build
-dotnet run
+How to Run
+1. Install .NET 8 SDK
+2. Navigate to the project directory
+3. Run "dotnet run" in the terminal
+4. Run "dotnet build" to view build error report. Which should be clean, error and warning free :)
 
 ## Development Environment
 
@@ -34,7 +39,7 @@ This project was developed using the following tools and technologies:
 
 Visual Studio Code for writing and debugging C# code
 
-.NET SDK for building and running the console application
+.NET SDK for building and running the console application, dotnet 8.0.401
 
 Git and GitHub for version control
 
