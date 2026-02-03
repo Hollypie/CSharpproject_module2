@@ -1,3 +1,4 @@
+// Stats is a class that stores the player object and the enemy object statistics for the logic calculations for battle. 
 public class Stats
 {
 
@@ -8,7 +9,7 @@ public class Stats
     // Parameterless constructor for JSON deserialization
     public Stats() { }
 
-    // Normal constructor for creating new Stats
+    // Normal constructor for creating new Stats for player/hero and enemy
     public Stats(int health, int strength, int defense)
     {
         Health = health;
@@ -16,6 +17,7 @@ public class Stats
         Defense = defense;
     }
 
+    // method for hero/player and enemies to take damage.
     public void TakeDamage(int amount)
     {
         Health -= amount;

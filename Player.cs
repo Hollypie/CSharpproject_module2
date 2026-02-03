@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 
+// Player class creates the hero object that the user uses to play the game
 public class Player
 {
+    // Player objects attributes with getters and setters
     public string Name { get; set; }
     public int Level { get; set; }
     public int CurrentXP { get; set; }
     public int XPToNextLevel { get; set; }
 
+    // Every hero has their stats instantiated
     public Stats Stats { get; set; }
     public List<string> Inventory { get; set; }
 
@@ -28,6 +31,7 @@ public class Player
         Name = name;
     }
 
+    // Writes Stats and inventory to the console. Shown when the game is loaded and new game is created.
     public void PrintStats()
     {
         Console.WriteLine($"Name: {Name}");
@@ -46,6 +50,7 @@ public class Player
         }
     }
 
+    // how to hero gains XP during combat.
     public void GainXP(int amount)
     {
         CurrentXP += amount;
@@ -59,6 +64,7 @@ public class Player
         }
     }
 
+    // How to hero levels up due to gaining XP during combat.
     private void LevelUp()
     {
         Level++;

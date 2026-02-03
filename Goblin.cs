@@ -1,3 +1,4 @@
+// Goblin enemy is a subclass of the Abstract Enemy class. Goblin inherits from Enemy and the has it's own custom changes.
 public class Goblin : Enemy
 {
     public Goblin()
